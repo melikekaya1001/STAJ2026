@@ -1,0 +1,28 @@
+Docker üzerinden verilen tüm komutlar docker .... şeklinde verilir
+sadece docker : kullanılabilecek komutları listeler
+
+Docker komutları 3 lü yapılar şeklindedirler docker-managmet-commands yani docker + yapmak istediğimizin şeyi yapacağımız kısım +işlem belirtmesi şeklinde işler
+
+--help : bu komut yazdığımız kısımneyse ondan sonraki kısımda neler yapabileceğimizi komut listesi olarak gösterir
+-it : containerın veya bi yapının içinde bağımsız bi terminal gibi komut vermeye yarar
+-v : o containerdaki volume erişme
+prune : tamamını silme/ temizleme
+pull : dışarıdan imaj çekmek : pull <imaj adı>:<etiket>
+-d : containerı arka planda detached çalıştırma komutu : run-d <imaj adı>
+network ls : network objelerini listeleme 
+inspect : o obje/ volume/ container vs hakkında detaylı bilgi verir 
+ping : bir ağa veya containera erişme
+--net : bağlanma komutu
+-p / --publish : post publish yani dışarıdan erişilebilirlik : -p <hostun portu>: <gönderilecek containerın portu>
+-e / --env : containerda environment veriables oluşturmak içindir. : <veriable adı> = <deger>
+-f : her şeyi zorla silme komutu
+ps : çalışan containerları listeleme
+
+Dockerfile açıklamaları 
+
+FROM : Her dockerfile ın ilk ve zorunlu tek talimatı. Hangi imajdan oluşturduğumuzu belirtiriz : FROM <imaj adı>:<etiket>
+RUN : İmajın içinde komut oluştutmaya ve yürütmeye yarar
+WORKDIR : Klasöre geçme komutu : WORKDIR <dosyayolu>
+COPY : Dışarıdan bi şeyin içeride kopyasını oluşturma
+CMD : İmajdan bir container oluşturulduğunda otomatik çalışacak talimat
+LABEL :İmaja meta veri ekleme
