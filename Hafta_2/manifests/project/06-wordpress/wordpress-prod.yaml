@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+      env: production
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        env: production
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: staj-cluster-worker2
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "production"
+          effect: "NoSchedule"
+      containers:
+        - name: wordpress
+          image: wordpress:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: "mysql"
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_DATABASE
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "768Mi"
+          volumeMounts:
+            - name: wordpress-storage
+              mountPath: /var/www/html
+      volumes:
+        - name: wordpress-storage
+          persistentVolumeClaim:
+            claimName: wordpress-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  namespace: production
+spec:
+  type: ClusterIP
+  selector:
+    app: wordpress
+    env: production
+  ports:
+    - port: 80
+      targetPort: 80

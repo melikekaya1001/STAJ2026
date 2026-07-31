@@ -1,0 +1,19 @@
+ Gerçek şifreler bu dosyada YER ALMAZ, örnek formattır.
+
+kubectl create secret generic mysql-secret \
+  --namespace=test \
+  --from-literal=MYSQL_ROOT_PASSWORD=<root-sifresi> \
+  --from-literal=MYSQL_PASSWORD=<wordpress-kullanici-sifresi> \
+  --from-literal=MYSQL_USER=wordpress \
+  --from-literal=MYSQL_DATABASE=wordpress
+
+kubectl create secret generic mysql-secret \
+  --namespace=production \
+  --from-literal=MYSQL_ROOT_PASSWORD=<root-sifresi> \
+  --from-literal=MYSQL_PASSWORD=<wordpress-kullanici-sifresi> \
+  --from-literal=MYSQL_USER=wordpress \
+  --from-literal=MYSQL_DATABASE=wordpress
+
+## Secret'ın var olduğunu doğrulama
+kubectl get secrets -n test
+kubectl get secrets -n production
