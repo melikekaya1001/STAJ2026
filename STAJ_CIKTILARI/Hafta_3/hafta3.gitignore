@@ -1,0 +1,72 @@
+# Hafta 3 - DevOps CI/CD Süreci
+
+## Proje Hakkında
+
+Bu proje kapsamında bir uygulamanın **Git → Docker → Helm → ArgoCD → Jenkins** akışıyla geliştirilip dağıtılması süreci uygulanmıştır. Amaç, modern bir DevOps döngüsünü baştan sona kurarak sürekli entegrasyon (CI) ve sürekli dağıtımın (CD) nasıl işlediğini uygulamalı olarak göstermektir.
+
+## DevOps Döngüsü
+
+klasördeki şemadan DevOps yaşam döngüsünü özetlemektedir:
+
+![DevOps Döngüsü]
+
+Süreç kısaca şu şekilde işlemektedir:
+
+1. **Geliştirme (Dev):** Kod değişiklikleri yapılır ve **Git** ile versiyonlanır.
+2. **Build:** Uygulama **Docker** ile imaj haline getirilir.
+3. **Paketleme:** Uygulama **Helm Chart** olarak paketlenir (`myapp-chart` klasörü).
+4. **CI (Sürekli Entegrasyon):** **Jenkins**, kod değişikliklerini algılayarak build, test ve imaj push işlemlerini otomatik olarak gerçekleştirir.
+5. **CD (Sürekli Dağıtım):** **ArgoCD**, Helm chart üzerinden Kubernetes cluster'ına otomatik dağıtım yapar.
+6. **İzleme:** Dağıtılan uygulama cluster üzerinde takip edilir, gerekirse geri bildirim geliştirme sürecine aktarılır.
+
+## Klasör Yapısı
+
+```
+Hafta_3/
+└── myapp-chart/
+    ├── charts/           # Alt (dependency) chart'lar
+    ├── templates/        # Kubernetes manifest şablonları
+    ├── .helmignore
+    ├── Chart.yaml        # Helm chart tanım dosyası
+    ├── values.yaml       # Chart için varsayılan değerler
+    ├── GorevTakip.md      # Haftalık görev/ilerleme takibi
+    ├── hafta3.gitignore
+    ├── Jenkinsfile        # Jenkins CI/CD pipeline tanımı
+    └── README             # Bu dosya
+```
+
+## Kullanılan Teknolojiler
+
+| Araç | Görevi |
+|------|--------|
+| **Git** | Versiyon kontrolü ve kaynak kod yönetimi |
+| **Docker** | Uygulamanın imaj haline getirilmesi |
+| **Helm** | Kubernetes uygulamalarının paketlenmesi ve yönetimi |
+| **ArgoCD** | GitOps tabanlı sürekli dağıtım (CD) |
+| **Jenkins** | Sürekli entegrasyon (CI) pipeline'ı |
+
+## Kurulum ve Kullanım
+
+```bash
+# Helm chart'ı kontrol et
+helm lint myapp-chart
+
+# Chart'ı paketle
+helm package myapp-chart
+
+# Kubernetes cluster'ına dağıt
+helm install myapp ./myapp-chart
+```
+
+ArgoCD üzerinden dağıtım için repository ArgoCD Application olarak tanımlanmalı ve `myapp-chart` klasörü source path olarak gösterilmelidir.
+
+## Dokümantasyon
+
+- 📄 **Hafta 3 Araştırma Dökümanı:** Sürecin teorik temellerini ve araştırma notlarını içerir.
+- 🖼️ **Ekran Görüntüleri Dökümanı:** Jenkins pipeline çalıştırmaları, ArgoCD senkronizasyon ekranları ve Helm deploy çıktılarına ait görselleri içerir.
+- ✅ **GorevTakip.md:** Haftalık yapılan işlerin ve görevlerin takip listesi.
+
+## Notlar
+
+- Bu README, projenin genel yapısını özetlemek amacıyla hazırlanmıştır.
+- Detaylı kurulum adımları ve pipeline tanımları için `Jenkinsfile` ve `values.yaml` dosyalarına bakılabilir.
