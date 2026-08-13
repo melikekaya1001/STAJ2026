@@ -1,0 +1,5 @@
+kubernetes>=29.0.0
+google-genai
+python-dotenv
+typer
+rich

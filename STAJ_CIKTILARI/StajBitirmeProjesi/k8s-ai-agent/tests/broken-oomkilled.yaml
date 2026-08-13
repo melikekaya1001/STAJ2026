@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-oomkilled
+  namespace: default
+  labels:
+    test-scenario: oomkilled
+spec:
+  restartPolicy: Always
+  containers:
+    - name: memory-hog
+      image: polinux/stress
+      resources:
+        limits:
+          memory: "20Mi"
+        requests:
+          memory: "10Mi"
+      command: ["stress"]
+      args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]

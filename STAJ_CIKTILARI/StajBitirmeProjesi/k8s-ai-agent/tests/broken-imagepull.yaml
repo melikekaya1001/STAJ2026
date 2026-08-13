@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-imagepull
+  namespace: default
+  labels:
+    test-scenario: imagepull
+spec:
+  restartPolicy: Always
+  containers:
+    - name: nonexistent-image
+      image: bu-imaj-asla-var-olmayacak:v999

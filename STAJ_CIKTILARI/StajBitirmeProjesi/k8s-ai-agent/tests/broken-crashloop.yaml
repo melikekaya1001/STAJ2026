@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-crashloop
+  namespace: default
+  labels:
+    test-scenario: crashloop
+spec:
+  restartPolicy: Always
+  containers:
+    - name: broken-container
+      image: busybox:1.36
+      command: ["sh", "-c", "echo 'Baslatildi...'; sleep 3; echo 'kontrollu cokme' >&2; exit 1"]
